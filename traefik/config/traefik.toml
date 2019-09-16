@@ -10,16 +10,6 @@ defaultEntryPoints = ["https", "http"]
   dashboard = true
   address = ":8080"
 
-# Force HTTPS
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#     [entryPoints.http.redirect]
-#     entryPoint = "https"
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
-
 [entryPoints]
   [entryPoints.http]
   address = ":80"
@@ -30,22 +20,6 @@ defaultEntryPoints = ["https", "http"]
 [file]
   watch = true
   filename = "/etc/traefik/rules.toml"
-
-# smurmann currently disabled because this is only meant for internal use
-# Let's encrypt configuration
-# [acme]
-# email = "murmann@seanli.net" #any email id will work
-# storage="/etc/traefik/acme/acme.json"
-# entryPoint = "https"
-# acmeLogging=true 
-# onDemand = false #create certificate when container is created
-# [acme.dnsChallenge]
-#   provider = "cloudflare"
-#   delayBeforeCheck = 300
-# [[acme.domains]]
-#    main = "seanli.net"
-# [[acme.domains]]
-#    main = "*.seanli.net"
 
 [acme]
 email = "murmann@pudding.home"
@@ -60,7 +34,5 @@ onHostRule = true
 endpoint = "unix:///var/run/docker.sock"
 domain = "pudding.home"
 watch = true
-# This will hide all docker containers that don't have explicitly  
-# set label to "enable"
 exposedbydefault = false
 
