@@ -1,0 +1,11 @@
+# this is not tested
+# version: "3.2"
+# services:
+#   iperf-server:
+#     container_name: iperf-server
+#     image: networkstatic/iperf3:latest
+#     mac_address: d0:ca:ab:cd:ef:53
+#     networks:
+#       homebridge:
+#         ipv4_address: 192.168.1.53
+#     command: -s
