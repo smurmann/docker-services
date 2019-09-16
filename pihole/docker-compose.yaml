@@ -8,8 +8,8 @@ services:
       homebridge:
         ipv4_address: ${PIHOLEIP}
     volumes:
-      - ./config/pihole/:/etc/pihole
-      - ./config/dnsmasq.d/:/etc/dnsmasq.d/
+      - ${USERDIR}/pihole/config/pihole/:/etc/pihole
+      - ${USERDIR}/pihole/config/dnsmasq.d/:/etc/dnsmasq.d/
     dns:
       - 127.0.0.1
       - 1.1.1.1

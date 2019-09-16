@@ -37,8 +37,8 @@ services:
       - "traefik.frontend.auth.basic=/shared/.htpasswd"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ${USERDIR}/docker/traefik/config:/etc/traefik
-      - ${USERDIR}/docker/traefik/shared:/shared
+      - ${USERDIR}/traefik/config:/etc/traefik
+      - ${USERDIR}/traefik/shared:/shared
 
 networks:
   traefik_proxy:

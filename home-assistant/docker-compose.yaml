@@ -8,7 +8,7 @@ services:
       homebridge:
         ipv4_address: ${HASSIP}
     volumes:
-     - ./config:/config
+     - ${USERDIR}/home-assistant/config:/config
     environment:
      - TZ=${TZ}
     restart: always

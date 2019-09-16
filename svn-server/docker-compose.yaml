@@ -8,8 +8,8 @@ services:
       homebridge:
         ipv4_address: ${SVNIP}
     volumes:
-     - ./config/:/etc/subversion
-     - /volume1/svn/:/home/svn
+     - ${USERDIR}/svn-server/config/:/etc/subversion
+     - ${SVNDIR}:/home/svn
     restart: unless-stopped
 
 networks:
