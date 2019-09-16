@@ -1,0 +1,26 @@
+#manual routes
+[backends]
+  [backends.backend-homeassistant]
+    [backends.backend-homeassistant.servers]
+      [backends.backend-homeassistant.servers.server-homeassistant-ext]
+        url = "http://192.168.1.50:8123"
+        weight = 0
+  [backends.backend-pihole]
+    [backends.backend-pihole.servers]
+      [backends.backend-pihole.servers.server-pihole-ext]
+        url = "http://192.168.1.51"
+        weight = 0
+
+[frontends]
+  [frontends.frontend-homeassistant]
+    backend = "backend-homeassistant"
+    passHostHeader = true
+    [frontends.frontend-homeassistant.routes]
+      [frontends.frontend-homeassistant.routes.route-homeassistant-ext]
+      rule = "Host:hass.pudding.home"
+  [frontends.frontend-pihole]
+    backend = "backend-pihole"
+    passHostHeader = true
+    [frontends.frontend-pihole.routes]
+      [frontends.frontend-pihole.routes.route-pihole-ext]
+      rule = "Host:pi.pudding.home,pihole.pudding.home"

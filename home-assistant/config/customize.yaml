@@ -1,0 +1,4 @@
+  switch.pihole_temp_disable:
+    friendly_name: Disable for 5 mins
+    icon: mdi:emoticon-dead
+    assumed_state: false

@@ -1,0 +1,63 @@
+- alias: Turn on kitchen light when there is movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_motion
+    to: 'on'
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.kitchen_switch
+
+- alias: Turn off kitchen light 10 minutes after last movement
+  trigger:
+    platform: state
+    entity_id: binary_sensor.kitchen_motion
+    to: 'off'
+    for:
+      minutes: 6
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.kitchen_switch
+
+- alias: Turn off living room lights when Switch is turn off
+  trigger:
+    platform: state
+    entity_id: switch.testswitch_1
+    to: 'off'
+  action:
+    - service: homeassistant.turn_off
+      entity_id: switch.livingroom_talllamp, switch.livingroom_backlights
+
+- alias: Turn on living room lights when Switch is turn on
+  trigger:
+    platform: state
+    entity_id: switch.testswitch_1
+    to: 'on'
+  action:
+    - service: homeassistant.turn_on
+      entity_id: switch.livingroom_talllamp, switch.livingroom_backlights
+
+- alias: "Internet Speed Glow Connect Great"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.speedtest_download')|float >= 10 }}"
+  action:
+    - service: shell_command.green
+
+- alias: "Internet Speed Glow Connect Poor"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.speedtest_download')|float < 10 }}"
+  action:
+    - service: shell_command.red
+
+- id: toggle Pihole switch
+  alias: "Switch - Toggle Pi-Hole"
+  initial_state: on
+  trigger:
+    - platform: state
+      entity_id: switch.pihole_temp_disable
+      to: 'on'
+  action:
+    - delay: '00:05:01'
+    - service: switch.turn_off
+      entity_id: switch.pihole_temp_disable

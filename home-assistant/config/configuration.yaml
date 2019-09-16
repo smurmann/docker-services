@@ -1,0 +1,109 @@
+
+# Configure a default setup of Home Assistant (frontend- api, etc)
+default_config:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+switch: !include switch.yaml
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: 
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+  - platform: pi_hole
+    host: 192.168.1.4
+    monitored_conditions: 
+      - ads_blocked_today
+      - ads_percentage_today
+      - dns_queries_today
+      - domains_being_blocked
+      - queries_cached
+      - queries_forwarded
+      - unique_clients
+      - unique_domains
+      - clients_ever_seen
+# Text to speech
+tts:
+  - platform: google_translate
+
+tuya:
+  username: !secret tuya_username
+  password: !secret tuya_password
+  country_code: 60
+  platform: smart_life
+
+homeassistant:
+  customize: !include customize.yaml
+
+speedtestdotnet:
+wake_on_lan:
+
+device_tracker:
+  - platform: ping
+    hosts:
+      steamlink: 192.168.1.31
+
+media_player:
+  - platform: plex
+  - platform: webostv
+    host: 192.168.1.30
+    name: Living Room TV
+    filename: webostv.conf
+    timeout: 5
+    turn_on_action:
+      service: wake_on_lan.send_magic_packet
+      data:
+        mac: "14:c9:13:1c:bb:45"
+
+wemo:
+  static:
+    - 192.168.1.144
+    - 192.168.1.145
+    - 192.168.1.146
+
+google_assistant:
+  project_id: !secret google_assistant_id
+  api_key: !secret google_assistant_api
+  expose_by_default: false
+  entity_config:
+    light.back_lights:
+      expose: true
+    light.bed_lamp:
+      expose: true
+    light.counter_light:
+      expose: true
+    light.bed_tall_lamp:
+      expose: true
+    light.table_lamp:
+      expose: true
+    light.tall_lamp:
+      expose: true
+    switch.pihole_temp_disable:
+      expose: true
+    media_player.living_room_tv:
+      expose: true
+
+light:
+  - platform: switch
+    name: Bed Lamp
+    entity_id: switch.bedroom_lamp
+  - platform: switch
+    name: Bed Tall Lamp
+    entity_id: switch.bedroom_talllamp
+  - platform: switch
+    name: Table Lamp
+    entity_id: switch.office_lamp
+  - platform: switch
+    name: Counter Light
+    entity_id: switch.kitchen_switch
+  - platform: switch
+    name: Tall Lamp
+    entity_id: switch.livingroom_talllamp
+  - platform: switch
+    name: Back Lights
+    entity_id: switch.livingroom_backlights
