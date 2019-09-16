@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    mac_address: ${PIHOLEMAC}
+    networks:
+      homebridge:
+        ipv4_address: ${PIHOLEIP}
+    volumes:
+      - ./config/pihole/:/etc/pihole
+      - ./config/dnsmasq.d/:/etc/dnsmasq.d/
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    environment:
+      - TZ=Asia/Kuala_Lumpur
+      - WEBPASSWORD=admin
+      - ServerIP=${PIHOLEIP}
+      - DNS1=1.1.1.1
+      - DNS2=8.8.8.8
+      - IPv6=false
+      - INTERFACE=bond0
+      - DNSMASQ_LISTENING=all
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+networks:
+  homebridge:
+    external:
+      name: homebridge

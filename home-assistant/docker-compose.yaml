@@ -1,0 +1,35 @@
+version: "3.2"
+services:
+  home-assistant:
+    container_name: home-assistant
+    image: homeassistant/home-assistant:stable
+    mac_address: ${HASSMAC}
+    networks:
+      homebridge:
+        ipv4_address: ${HASSIP}
+    volumes:
+     - ./config:/config
+    environment:
+     - TZ=${TZ}
+    restart: always
+    labels:
+      - "traefik.enable=true"
+
+networks:
+  homebridge:
+    external:
+      name: homebridge
+
+# this line was used to create homebridge network. It represents the block of network text below.
+# I used this instead of the block below because naming networks is only supported in 3.5 and above
+# docker network create --driver=macvlan -o parent=bond0 --gateway=192.168.1.1 --subnet=192.168.1.0/16 --ip-range=192.168.1.0/24 homebridge
+# networks:
+#   homebridge:
+#     driver: macvlan
+#     driver_opts:
+#       parent: bond0
+#     ipam:
+#       config:
+#         - subnet: 192.168.1.0/24
+          # gateway: 192.168.1.1
+          # ip_range: 192.168.123.50/24
